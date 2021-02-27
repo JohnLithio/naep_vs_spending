@@ -75,3 +75,26 @@ class Digest:
         self.ppe.to_feather(
             f"../data/raw/per_pupil_expenditure_{self.year}_{current_date}.feather"
         )
+
+
+class Naep:
+    """Retrieve NAEP data."""
+
+    def __init__(self, year=None):
+        """Set url to be used in methods.
+
+        Args:
+            year (str, optional): Year of digest. Defaults to current year.
+
+        """
+        self.baseurl = "https://nces.ed.gov/programs/digest/"
+        if year is not None:
+            self.year = str(year)
+            assert len(self.year) == 4, "Please enter a valid year"
+            assert (
+                int(self.year) > 2008
+            ), "Only years 2009 and later are currently supported"
+            self.tablesurl = self.baseurl + f"{year}menu_tables.asp"
+        else:
+            self.year = "currentyear"
+            self.tablesurl = self.baseurl + "current_tables.asp"
